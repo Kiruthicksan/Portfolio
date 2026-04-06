@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-
+import { ArrowRight } from "lucide-react";
 
 const Hero: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -28,12 +28,12 @@ const Hero: React.FC = () => {
     };
 
     const createParticles = () => {
-      particles = Array.from({ length: 60 }, () => ({
+      particles = Array.from({ length: 100 }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        speedY: Math.random() * 0.3 + 0.2,
-        alpha: Math.random(),
+        size: Math.random() * 1.5,
+        speedY: Math.random() * 0.2 + 0.1,
+        alpha: Math.random() * 0.8 + 0.2,
       }));
     };
 
@@ -47,8 +47,8 @@ const Hero: React.FC = () => {
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
 
-        p.y += p.speedY;
-        if (p.y > canvas.height) p.y = 0;
+        p.y -= p.speedY; // move up to look like floating embers/stars
+        if (p.y < 0) p.y = canvas.height;
       });
 
       requestAnimationFrame(animate);
@@ -65,23 +65,24 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center items-center text-center overflow-hidden"
     >
-      {/* Stellar Background Gradient */}
-      <div className="absolute inset-0 bg-linear-to-br from-blue-900 via-indigo-900 to-gray-900 dark:from-gray-900 dark:via-slate-900 dark:to-black opacity-90" />
+      {/* Background with darker gradient */}
+      <div className="absolute inset-0 bg-[#030014] z-[-2]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] z-[-1] from-sky-900/20 via-[#030014] to-[#030014]" />
 
       {/* Star shimmer canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
+      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />
 
       {/* Floating gradient glow blob */}
       <motion.div
-        className="absolute w-[500px] h-[500px] bg-linear-to-r from-blue-500 to-fuchsia-500 rounded-full blur-[180px] opacity-30"
+        className="absolute w-[600px] h-[600px] bg-linear-to-r from-sky-500/20 to-purple-500/20 rounded-full blur-[150px] opacity-40 pointer-events-none z-0"
         animate={{
-          x: [0, 30, -30, 0],
-          y: [0, -30, 30, 0],
+          x: [0, 40, -40, 0],
+          y: [0, -40, 40, 0],
         }}
         transition={{
-          duration: 10,
+          duration: 12,
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -89,37 +90,47 @@ const Hero: React.FC = () => {
 
       {/* Content */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2 }}
-        className="relative z-10 px-4"
+        transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+        className="relative z-10 px-6 max-w-4xl mx-auto flex flex-col items-center"
       >
-       
-        <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-[0_0_10px_rgba(56,189,248,0.7)]">
-          Hi, I’m <span className="text-blue-400">Kiruthicksan</span>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-sm font-medium text-gray-300">Available for new opportunities</span>
+        </motion.div>
+
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-tight">
+          Crafting <span className="text-transparent bg-clip-text bg-linear-to-r from-sky-400 via-indigo-400 to-purple-400 drop-shadow-[0_0_20px_rgba(56,189,248,0.3)]">Digital</span> Experiences.
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-        I design and build full-stack web experiences that blend creativity, performance, and precision —  <span className="text-blue-400"> turning ideas</span> into interactive realities.
-         
+        
+        <p className="mt-8 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light">
+          I’m <span className="text-white font-medium">Kiruthicksan</span>, a full-stack developer who bridges the gap between design and engineering to build immersive, high-performance web applications.
         </p>
 
         <motion.div
-          className="flex justify-center gap-6 mt-8"
+          className="flex flex-col sm:flex-row justify-center gap-4 mt-12 w-full sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
         >
           <a
             href="#projects"
-            className="px-6 py-3 rounded-xl text-white bg-blue-500/80 hover:bg-blue-500 transition-all shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+            className="group relative flex items-center justify-center gap-2 px-8 py-4 rounded-full text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all shadow-[0_0_30px_rgba(56,189,248,0.15)] hover:shadow-[0_0_40px_rgba(56,189,248,0.3)] backdrop-blur-md"
           >
             View Projects
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
             href="#contact"
-            className="px-6 py-3 rounded-xl border border-white/30 text-white hover:bg-white/10 transition-all"
+            className="group flex items-center justify-center px-8 py-4 rounded-full text-gray-300 font-medium hover:text-white transition-colors"
           >
-            Contact Me
+            Let's talk
           </a>
         </motion.div>
       </motion.div>
@@ -128,3 +139,4 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
+

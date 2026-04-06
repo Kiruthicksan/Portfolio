@@ -1,23 +1,37 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
+}
 
 html {
   scroll-behavior: smooth;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
   overflow-x: hidden;
-  background-color: #000;
+  background-color: #030014;
+  color: #e2e8f0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #38bdf8, #9333ea);
+  background: linear-gradient(180deg, #38bdf8, #8b5cf6, #d946ef);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+

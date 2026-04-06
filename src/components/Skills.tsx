@@ -26,71 +26,87 @@ const skills = [
   { name: "MongoDB", icon: SiMongodb, color: "#4db33d" },
   { name: "GSAP", icon: SiSap, color: "#88ce02" },
   { name: "PostMan", icon: SiPostman, color: "#FF6C37" },
-  { name: "Socket.IO", icon: SiSocketdotio, color: "#010101" },
+  { name: "Socket.IO", icon: SiSocketdotio, color: "#ffffff" },
 ];
 
 const Skills: React.FC = () => {
   return (
     <section
       id="skills"
-      className="relative min-h-screen flex flex-col justify-center items-center py-20 px-6 md:px-12 overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center items-center py-24 px-6 xl:px-0 overflow-hidden bg-[#030014]"
     >
-      {/* Background gradient glow */}
-      <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#0f172a]/60 to-[#020617] dark:from-transparent dark:via-[#0a0a1a]/70 dark:to-black" />
+      {/* Background gradients */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-indigo-900/10 via-[#030014] to-[#030014] z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-900/10 rounded-full blur-[150px] z-0 pointer-events-none" />
 
-      {/* Floating glow blob */}
-      <motion.div
-        className="absolute w-[500px] h-[500px] bg-linear-to-r from-blue-500 to-fuchsia-500 rounded-full blur-[200px] opacity-10"
-        animate={{
-          x: [0, 50, -50, 0],
-          y: [0, -40, 40, 0],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
-      {/* Title */}
-      <motion.h2
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="text-4xl font-bold text-white mb-12 z-10 drop-shadow-[0_0_10px_rgba(56,189,248,0.7)]"
-      >
-        My Skills
-      </motion.h2>
+      {/* Header */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto mb-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="inline-flex items-center gap-3 mb-6"
+        >
+          <span className="w-12 h-1px bg-purple-500 hidden sm:block"></span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+            My <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-sky-400">Toolkit</span>
+          </h2>
+          <span className="w-12 h-1px bg-purple-500 hidden sm:block"></span>
+        </motion.div>
+        
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="text-gray-400 text-lg max-w-2xl mx-auto"
+        >
+          A tailored selection of technologies I use to bring digital products to life.
+        </motion.p>
+      </div>
 
       {/* Skills Grid */}
-      <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10">
+      <div className="relative z-10 w-full max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {skills.map((skill, i) => {
           const Icon = skill.icon;
           return (
             <motion.div
               key={skill.name}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.1 }}
               transition={{
                 duration: 0.5,
-                delay: i * 0.1,
-                ease: "easeOut",
+                delay: i * 0.05,
               }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center justify-center bg-white/5 dark:bg-white/10 rounded-2xl p-8 hover:shadow-[0_0_25px_rgba(56,189,248,0.5)] transition-all backdrop-blur-md"
+              viewport={{ once: true, margin: "-50px" }}
+              className="group relative flex flex-col items-center justify-center p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] hover:border-white/10 transition-all duration-300 backdrop-blur-sm cursor-default"
             >
-              <Icon
-                size={60}
-                style={{
-                  color: skill.color,
-                  filter: `drop-shadow(0 0 10px ${skill.color}80)`,
+              {/* Subtle hover gradient background */}
+              <div 
+                className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
+                style={{ 
+                  background: `radial-gradient(circle at center, ${skill.color}50 0%, transparent 70%)` 
                 }}
               />
-              <p className="mt-3 text-white text-lg font-medium drop-shadow-[0_0_5px_rgba(0,0,0,0.6)]">
-                {skill.name}
-              </p>
+              
+              <div className="relative z-10 flex flex-col items-center transform transition-transform duration-300 group-hover:-translate-y-2">
+                <div 
+                  className="p-4 rounded-2xl bg-white/5 mb-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] group-hover:bg-white/10 transition-colors"
+                >
+                  <Icon
+                    size={48}
+                    style={{
+                      color: skill.color,
+                      filter: `drop-shadow(0 0 15px ${skill.color}40)`,
+                    }}
+                    className="transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <p className="text-gray-300 font-medium tracking-wide group-hover:text-white transition-colors">
+                  {skill.name}
+                </p>
+              </div>
             </motion.div>
           );
         })}
@@ -100,3 +116,4 @@ const Skills: React.FC = () => {
 };
 
 export default Skills;
+

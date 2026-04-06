@@ -5,8 +5,8 @@ const ScrollIndicator: React.FC = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-blue-500 to-fuchsia-500 z-50"
-      style={{ scaleX: scrollYProgress }}
+      className="fixed top-0 left-0 h-[2px] bg-linear-to-r from-sky-400 via-indigo-400 to-purple-500 z-[60]"
+      style={{ scaleX: scrollYProgress, transformOrigin: '0% 50%' }}
       initial={{ scaleX: 0 }}
       transition={{ ease: "easeOut" }}
     />

@@ -1,9 +1,20 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("dark");
+  const [hidden, setHidden] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0;
+    if (latest > previous && latest > 150) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -14,28 +25,31 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/10 dark:bg-black/30 border-b border-white/10"
+      variants={{
+        visible: { y: 0, opacity: 1 },
+        hidden: { y: -100, opacity: 0 },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full px-4"
     >
-      <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
+      <div className="w-full max-w-4xl flex justify-between items-center py-3 px-6 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         {/* Logo */}
         <motion.a
           whileHover={{ scale: 1.05 }}
-          className="text-2xl font-bold tracking-wide text-gray-900 dark:text-white drop-shadow-[0_0_6px_rgba(56,189,248,0.5)]"
+          className="text-xl md:text-2xl font-bold tracking-wide text-white drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]"
           href="/"
         >
-          Kiruthicksan<span className="text-blue-400">.</span>
+          Kiruthicksan<span className="text-sky-400">.</span>
         </motion.a>
 
         {/* Links */}
-        <ul className="hidden md:flex gap-8 text-gray-700 dark:text-gray-300 font-medium">
+        <ul className="hidden md:flex gap-8 text-gray-300 font-medium">
           {["About", "Skills", "Projects", "Contact"].map((link) => (
-            <motion.li key={link} whileHover={{ scale: 1.1 }}>
+            <motion.li key={link} whileHover={{ y: -2 }}>
               <a
                 href={`#${link.toLowerCase()}`}
-                className="relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-400 after:left-0 after:-bottom-1 hover:after:w-full after:transition-all after:duration-300"
+                className="relative text-sm uppercase tracking-wider text-gray-300 hover:text-white transition-colors after:content-[''] after:absolute after:h-[2px] after:bg-sky-400 after:left-0 after:-bottom-1 after:w-0 hover:after:w-full after:transition-all after:duration-300"
               >
                 {link}
               </a>
@@ -47,9 +61,10 @@ const Navbar = () => {
         <motion.button
           onClick={toggleTheme}
           whileTap={{ scale: 0.9 }}
-          className="p-2 rounded-xl bg-white/20 dark:bg-gray-800/50 hover:bg-white/30 dark:hover:bg-gray-700/50 transition-colors shadow-[0_0_10px_rgba(56,189,248,0.4)]"
+          whileHover={{ scale: 1.1 }}
+          className="p-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-all shadow-[0_0_15px_rgba(56,189,248,0.2)] hover:shadow-[0_0_20px_rgba(56,189,248,0.4)]"
         >
-          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
         </motion.button>
       </div>
     </motion.nav>
